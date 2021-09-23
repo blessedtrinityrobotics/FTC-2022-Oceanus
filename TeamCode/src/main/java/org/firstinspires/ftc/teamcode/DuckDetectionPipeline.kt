@@ -24,6 +24,7 @@ class DuckDetectionPipeline : OpenCvPipeline() {
         private set
 
     override fun processFrame(input: Mat?): Mat {
+        // TODO: Make sure the input is not nil!
         contours.clear()
 
         Imgproc.cvtColor(input, hsv, Imgproc.COLOR_RGB2HSV)

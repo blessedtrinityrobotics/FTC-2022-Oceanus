@@ -34,7 +34,7 @@ class DuckDetectionAuto : LinearOpMode() {
                 webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT)
             }
 
-            fun onError(errorCode: Int) {
+            override fun onError(errorCode: Int) {
                 /*
                  * This will be called if the camera could not be opened
                  */
