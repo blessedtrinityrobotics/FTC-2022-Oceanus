@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode
 
+import com.acmerobotics.dashboard.FtcDashboard
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
@@ -28,5 +29,6 @@ fun getWebcam(hardwareMap: HardwareMap, telemetry: Telemetry): OpenCvWebcam {
         }
         override fun onError(code: Int) {}
     })
+    FtcDashboard.getInstance().startCameraStream(webcam, 0.0)
     return webcam
 }

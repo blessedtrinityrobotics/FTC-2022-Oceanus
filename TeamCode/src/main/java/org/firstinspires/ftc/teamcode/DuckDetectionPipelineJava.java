@@ -17,6 +17,9 @@ import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
+/**
+ * Used to describe where the duck is on the field
+ */
 enum Zone {
     LEFT,
     CENTER,
@@ -24,18 +27,20 @@ enum Zone {
 }
 
 public class DuckDetectionPipelineJava extends OpenCvPipeline {
-    Scalar lower_bound = new Scalar(10, 200, 150);
-    Scalar upper_bound = new Scalar(20, 255, 255);
-    Mat empty = new Mat();
-    Mat mask = new Mat();
-    Mat result = new Mat();
-    Mat hierarchy = new Mat();
-    Mat kernel = new Mat();
-    Mat opening = new Mat();
-    List<MatOfPoint> contours = new ArrayList<>();
-    Telemetry telemetry;
-    MatOfPoint largestAreaMat = new MatOfPoint();
-    int increment = CAM_RES_X/3;
+    private Scalar lower_bound = new Scalar(10, 200, 150);
+    private Scalar upper_bound = new Scalar(20, 255, 255);
+    private Mat empty = new Mat();
+    private Mat mask = new Mat();
+    private Mat result = new Mat();
+    private Mat hierarchy = new Mat();
+    private Mat kernel = new Mat();
+    private Mat opening = new Mat();
+    private List<MatOfPoint> contours = new ArrayList<>();
+    private Telemetry telemetry;
+    private MatOfPoint largestAreaMat = new MatOfPoint();
+    private int increment = CAM_RES_X/3;
+
+    // Default zone is center, be warned, this could be a problem
     Zone zone = Zone.CENTER;
 
     public DuckDetectionPipelineJava(Telemetry telemetry) {
@@ -91,6 +96,7 @@ public class DuckDetectionPipelineJava extends OpenCvPipeline {
         } else {
             zone = Zone.RIGHT;
         }
+        telemetry.addData("Zone", zone);
     }
 
 }

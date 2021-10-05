@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode
 
+import com.acmerobotics.dashboard.FtcDashboard
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import org.openftc.easyopencv.OpenCvWebcam
@@ -15,10 +16,10 @@ class TestAuto : LinearOpMode() {
 
         webcam.setPipeline(pipeline)
 
+
         waitForStart()
 
         while (opModeIsActive()) {
-            telemetry.addData("Zone", pipeline.zone.toString())
             telemetry.update()
         }
 
