@@ -10,15 +10,15 @@ class TestAuto : LinearOpMode() {
     lateinit var pipeline: DuckDetectionPipelineJava
 
     override fun runOpMode() {
-        val f = getWebcam(hardwareMap, telemetry)
-        webcam = f.first
-        pipeline = f.second
+        pipeline = DuckDetectionPipelineJava(telemetry)
+        webcam = getWebcam(hardwareMap, telemetry)
+
+        webcam.setPipeline(pipeline)
 
         waitForStart()
 
         while (opModeIsActive()) {
-
-
+            telemetry.addData("Zone", pipeline.zone.toString())
             telemetry.update()
         }
 
