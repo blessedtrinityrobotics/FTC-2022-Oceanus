@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode
 
+import com.arcrobotics.ftclib.util.MathUtils.clamp
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
+import com.qualcomm.robotcore.hardware.CRServo
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorSimple
+import com.qualcomm.robotcore.hardware.Servo
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.hypot
@@ -16,15 +19,20 @@ class BasicTeleOp : OpMode() {
     private lateinit var frontRightDrive: DcMotor
     private lateinit var backLeftDrive: DcMotor
     private lateinit var backRightDrive: DcMotor
+    private lateinit var carousel: CRServo
 
     override fun init() {
         frontLeftDrive = hardwareMap.dcMotor.get(FL_MOTOR_NAME)
         frontRightDrive = hardwareMap.dcMotor.get(FR_MOTOR_NAME)
         backLeftDrive = hardwareMap.dcMotor.get(BL_MOTOR_NAME)
         backRightDrive = hardwareMap.dcMotor.get(BR_MOTOR_NAME)
+        carousel = hardwareMap.crservo.get(CAROUSEL_SERVO_NAME)
 
-        frontLeftDrive.direction = DcMotorSimple.Direction.REVERSE
-        backLeftDrive.direction = DcMotorSimple.Direction.REVERSE
+        frontLeftDrive.direction = DcMotorSimple.Direction.FORWARD
+        backLeftDrive.direction = DcMotorSimple.Direction.FORWARD
+
+        frontRightDrive.direction = DcMotorSimple.Direction.REVERSE
+        backRightDrive.direction = DcMotorSimple.Direction.REVERSE
     }
 
     override fun loop() {
@@ -35,10 +43,10 @@ class BasicTeleOp : OpMode() {
         val r = hypot(gamepad1.left_stick_x, gamepad1.left_stick_y) * ConfigConstants.motorMult
         val robotAngle = atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4
         val rightX = gamepad1.right_stick_x
-        val v1 = r * cos(robotAngle) + rightX
-        val v2 = r * sin(robotAngle) - rightX
-        val v3 = r * sin(robotAngle) + rightX
-        val v4 = r * cos(robotAngle) - rightX
+        val v1 = clamp(r * cos(robotAngle) + rightX, -1.0, 1.0)
+        val v2 = clamp(r * sin(robotAngle) - rightX, -1.0, 1.0)
+        val v3 = clamp(r * sin(robotAngle) + rightX, -1.0, 1.0)
+        val v4 = clamp(r * cos(robotAngle) - rightX, -1.0, 1.0)
 
         // Instead of using getters/setters, just let kotlin do it for you!
         frontLeftDrive.power = v1.toDouble()
@@ -46,7 +54,19 @@ class BasicTeleOp : OpMode() {
         backLeftDrive.power = v3.toDouble()
         backRightDrive.power = v4.toDouble()
 
+        if (gamepad1.a) {
+            carousel.power = 1.0
+        } else if (gamepad1.b) {
+            carousel.power = -1.0
+        } else {
+            carousel.power = 0.0
+        }
+
         // This part is basically synonymous with java
+        telemetry.addData("FL Power", v1)
+        telemetry.addData("FR Power", v2)
+        telemetry.addData("BL Power", v3)
+        telemetry.addData("BR Power", v4)
         telemetry.update()
     }
 
