@@ -10,3 +10,6 @@ const val FR_MOTOR_NAME = "front_right_drive"
 const val BL_MOTOR_NAME = "back_left_drive"
 const val BR_MOTOR_NAME = "back_right_drive"
 const val CAROUSEL_SERVO_NAME = "carousel"
+const val CAROUSEL_SERVO_SPEED = 1.0
+const val SLIDE_MOTOR_NAME = "slide"
+const val INTAKE_MOTOR_NAME = "intake"
