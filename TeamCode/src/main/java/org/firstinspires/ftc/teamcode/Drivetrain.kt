@@ -1,30 +1,40 @@
 package org.firstinspires.ftc.teamcode
 
+import com.arcrobotics.ftclib.hardware.motors.Motor
 import com.arcrobotics.ftclib.util.MathUtils
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
-import kotlin.math.atan2
-import kotlin.math.cos
-import kotlin.math.hypot
-import kotlin.math.sin
+import kotlin.math.*
 
 /**
  * Interfaces with the motors directly so you don't have to!
  * Never access the motors, just add functions here to add functionality
  */
-class Drivetrain (hardwareMap: HardwareMap, val telemetry: Telemetry) {
-    val frontLeft = hardwareMap.dcMotor.get(FL_MOTOR_NAME)
-    val backLeft = hardwareMap.dcMotor.get(BL_MOTOR_NAME)
-    val frontRight = hardwareMap.dcMotor.get(FR_MOTOR_NAME)
-    val backRight = hardwareMap.dcMotor.get(BR_MOTOR_NAME)
+class Drivetrain (hardwareMap: HardwareMap, val telemetry: Telemetry, mode: Motor.RunMode) {
+    val frontLeft = Motor(hardwareMap, FL_MOTOR_NAME, Motor.GoBILDA.RPM_312)
+    val backLeft = Motor(hardwareMap, BL_MOTOR_NAME, Motor.GoBILDA.RPM_312)
+    val frontRight = Motor(hardwareMap, FR_MOTOR_NAME, Motor.GoBILDA.RPM_312)
+    val backRight = Motor(hardwareMap, BR_MOTOR_NAME, Motor.GoBILDA.RPM_312)
+
+    val DISTANCE_PER_PULSE = 100 * PI / 537.7
 
     init {
-        frontLeft.direction = DcMotorSimple.Direction.FORWARD
-        backLeft.direction = DcMotorSimple.Direction.FORWARD
+        frontLeft.setRunMode(mode)
+        frontRight.setRunMode(mode)
+        backLeft.setRunMode(mode)
+        backRight.setRunMode(mode)
 
-        frontRight.direction = DcMotorSimple.Direction.REVERSE
-        backRight.direction = DcMotorSimple.Direction.REVERSE
+        frontLeft.motor.direction = DcMotorSimple.Direction.FORWARD
+        backLeft.motor.direction = DcMotorSimple.Direction.FORWARD
+
+        frontRight.motor.direction = DcMotorSimple.Direction.REVERSE
+        backRight.motor.direction = DcMotorSimple.Direction.REVERSE
+
+        frontLeft.setDistancePerPulse(DISTANCE_PER_PULSE)
+        frontRight.setDistancePerPulse(DISTANCE_PER_PULSE)
+        backLeft.setDistancePerPulse(DISTANCE_PER_PULSE)
+        backRight.setDistancePerPulse(DISTANCE_PER_PULSE)
     }
 
     /**
@@ -43,14 +53,23 @@ class Drivetrain (hardwareMap: HardwareMap, val telemetry: Telemetry) {
         val v4 = MathUtils.clamp(r * cos(robotAngle) - yaw, -1.0, 1.0)
 
         // Instead of using getters/setters, just let kotlin do it for you!
-        frontLeft.power = v1
-        frontRight.power = v2
-        backLeft.power = v3
-        backRight.power = v4
+        frontLeft.set(v1)
+        frontRight.set(v2)
+        backLeft.set(v3)
+        backRight.set(v4)
 
         telemetry.addData("FL Power", v1)
         telemetry.addData("FR Power", v2)
         telemetry.addData("BL Power", v3)
         telemetry.addData("BR Power", v4)
     }
+
+    fun encoderDrive(dist: Double) {
+        frontLeft.setTargetDistance(dist)
+        frontLeft.setTargetDistance(dist)
+        frontLeft.setTargetDistance(dist)
+        frontLeft.setTargetDistance(dist)
+    }
+
+
 }

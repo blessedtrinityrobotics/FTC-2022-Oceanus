@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode
 
+import com.arcrobotics.ftclib.hardware.motors.Motor
 import com.arcrobotics.ftclib.util.MathUtils.clamp
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
@@ -23,13 +24,13 @@ class MainTeleOp : OpMode() {
 
     override fun init() {
         carousel = CarouselServo(hardwareMap, telemetry)
-        drivetrain = Drivetrain(hardwareMap, telemetry)
+        drivetrain = Drivetrain(hardwareMap, telemetry, Motor.RunMode.RawPower)
     }
 
     override fun loop() {
         val forward = gamepad1.left_stick_y
-        val lateral = gamepad1.right_stick_x
-        val yaw = gamepad1.left_stick_y
+        val lateral = gamepad1.left_stick_x
+        val yaw = gamepad1.right_stick_x
 
         drivetrain.mecanumDrive(forward.toDouble(), lateral.toDouble(), yaw.toDouble())
 
