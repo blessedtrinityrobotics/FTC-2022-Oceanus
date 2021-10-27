@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode
 
+import com.arcrobotics.ftclib.drivebase.MecanumDrive
 import com.arcrobotics.ftclib.hardware.motors.Motor
 import com.arcrobotics.ftclib.util.MathUtils
 import com.qualcomm.robotcore.hardware.DcMotorSimple
@@ -19,6 +20,9 @@ class Drivetrain (hardwareMap: HardwareMap, val telemetry: Telemetry, mode: Moto
 
     val DISTANCE_PER_PULSE = 100 * PI / 537.7
 
+    /**
+     * TODO: Migrate to the actual Mecanum drive class of FTC Lib
+     */
     init {
         frontLeft.setRunMode(mode)
         frontRight.setRunMode(mode)
@@ -35,6 +39,7 @@ class Drivetrain (hardwareMap: HardwareMap, val telemetry: Telemetry, mode: Moto
         frontRight.setDistancePerPulse(DISTANCE_PER_PULSE)
         backLeft.setDistancePerPulse(DISTANCE_PER_PULSE)
         backRight.setDistancePerPulse(DISTANCE_PER_PULSE)
+
     }
 
     /**
