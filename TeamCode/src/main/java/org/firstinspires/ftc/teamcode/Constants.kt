@@ -13,3 +13,4 @@ const val CAROUSEL_SERVO_NAME = "carousel"
 const val CAROUSEL_SERVO_SPEED = 1.0
 const val SLIDE_MOTOR_NAME = "slide"
 const val INTAKE_MOTOR_NAME = "intake"
+const val SCOOP_SERVO_NAME = "scoop"

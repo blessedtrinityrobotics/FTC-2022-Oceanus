@@ -69,6 +69,14 @@ class Drivetrain (hardwareMap: HardwareMap, val telemetry: Telemetry, mode: Moto
         telemetry.addData("BR Power", v4)
     }
 
+    fun stop() {
+        frontLeft.set(0.0)
+        frontRight.set(0.0)
+        backLeft.set(0.0)
+        backRight.set(0.0)
+    }
+
+
     fun encoderDrive(dist: Double) {
         frontLeft.setTargetDistance(dist)
         frontLeft.setTargetDistance(dist)

@@ -17,15 +17,6 @@ import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-/**
- * Used to describe where the duck is on the field
- */
-enum Zone {
-    LEFT,
-    CENTER,
-    RIGHT
-}
-
 public class DuckDetectionPipelineJava extends OpenCvPipeline {
     private Scalar lower_bound = new Scalar(10, 200, 150);
     private Scalar upper_bound = new Scalar(20, 255, 255);
@@ -41,7 +32,7 @@ public class DuckDetectionPipelineJava extends OpenCvPipeline {
     private int increment = CAM_RES_X/3;
 
     // Default zone is center, be warned, this could be a problem
-    Zone zone = Zone.CENTER;
+    int level = 0;
 
     public DuckDetectionPipelineJava(Telemetry telemetry) {
         this.telemetry = telemetry;
@@ -76,7 +67,7 @@ public class DuckDetectionPipelineJava extends OpenCvPipeline {
         updateZone();
         Imgproc.cvtColor(inputMat, inputMat, Imgproc.COLOR_HSV2RGB);
         // Nice little debug message for the current zone
-        Imgproc.putText(inputMat, "Zone: " + zone, new Point(10, 25), 2, 1, new Scalar(255, 255, 255), 2, Imgproc.LINE_AA);
+        Imgproc.putText(inputMat, "Level: " + level, new Point(10, 25), 2, 1, new Scalar(255, 255, 255), 2, Imgproc.LINE_AA);
         return inputMat;
     }
 
@@ -90,13 +81,13 @@ public class DuckDetectionPipelineJava extends OpenCvPipeline {
         int middleX = r.x + r.width/2;
         // Check for each zone, regardless of height
         if (middleX < increment) {
-            zone = Zone.LEFT;
+            level = 1;
         } else if (middleX < increment * 2) {
-            zone = Zone.CENTER;
+            level = 2;
         } else {
-            zone = Zone.RIGHT;
+            level = 3;
         }
-        telemetry.addData("Zone", zone);
+        telemetry.addData("Level", level);
     }
 
 }

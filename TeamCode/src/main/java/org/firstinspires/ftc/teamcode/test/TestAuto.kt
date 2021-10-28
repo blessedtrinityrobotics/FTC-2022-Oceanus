@@ -1,8 +1,9 @@
-package org.firstinspires.ftc.teamcode
+package org.firstinspires.ftc.teamcode.test
 
-import com.acmerobotics.dashboard.FtcDashboard
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
+import org.firstinspires.ftc.teamcode.DuckDetectionPipelineJava
+import org.firstinspires.ftc.teamcode.getWebcam
 import org.openftc.easyopencv.OpenCvWebcam
 
 @Autonomous(name = "Test Auto", group = "Test")
