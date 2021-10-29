@@ -4,12 +4,13 @@ import com.arcrobotics.ftclib.hardware.motors.Motor
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import kotlin.math.PI
+import kotlin.math.sign
 
 class Slide(hardwareMap: HardwareMap, val telemetry: Telemetry) {
     val motor = Motor(hardwareMap, SLIDE_MOTOR_NAME, Motor.GoBILDA.RPM_223)
 
-    val MAX_TICKS = 1200
-    val MIN_TICKS = 1
+    val MAX_TICKS: Double = 2350.0
+    val MIN_TICKS: Double = -50.0
 
     init {
         motor.setRunMode(Motor.RunMode.RawPower)
@@ -21,7 +22,10 @@ class Slide(hardwareMap: HardwareMap, val telemetry: Telemetry) {
 
     fun move(power: Double) {
         // checks if we are within range
-        if (motor.currentPosition in MIN_TICKS until MAX_TICKS)
+        val s = sign(power)
+        if (s == 1.0 && motor.currentPosition <= MAX_TICKS)
+            motor.set(power)
+        else if (s == -1.0 && motor.currentPosition >= MIN_TICKS)
             motor.set(power)
         else
             motor.set(0.0)

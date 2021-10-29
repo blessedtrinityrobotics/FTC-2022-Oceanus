@@ -14,21 +14,21 @@ class TestTeleop : OpMode() {
         slide = Slide(hardwareMap, telemetry)
         scoop = Scoop(hardwareMap, telemetry)
     }
-
+/*
+* top limit 2363
+* bottom: -23
+* */
     override fun loop() {
         if (gamepad1.dpad_up)
-            slide.test(0.25)
+            slide.move(0.25)
         else if (gamepad1.dpad_down)
-            slide.test(-0.25)
+            slide.move(-0.25)
         else
-            slide.test(0.0)
+            slide.move(0.0)
 
-        if (gamepad1.y)
-            scoop.pickup()
-        else if (gamepad1.x)
+
+        if (gamepad1.x)
             scoop.reset()
-        else if (gamepad1.a)
-            scoop.dump()
 
         slide.logPosition()
         telemetry.update()

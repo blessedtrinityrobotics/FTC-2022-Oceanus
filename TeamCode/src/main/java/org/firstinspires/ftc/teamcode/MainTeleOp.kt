@@ -21,27 +21,45 @@ class MainTeleOp : OpMode() {
     // So I can reuse the code between Auto's and Teleops
     private lateinit var drivetrain: Drivetrain
     private lateinit var carousel: CarouselServo
+    private  lateinit var slide: Slide
+    private lateinit var scoop: Scoop
 
     override fun init() {
         carousel = CarouselServo(hardwareMap, telemetry)
         drivetrain = Drivetrain(hardwareMap, telemetry, Motor.RunMode.RawPower)
+        slide = Slide(hardwareMap, telemetry)
+        scoop = Scoop(hardwareMap, telemetry)
     }
 
     override fun loop() {
-        val forward = gamepad1.left_stick_y
-        val lateral = gamepad1.left_stick_x
-        val yaw = gamepad1.right_stick_x
+        val forward = gamepad1.left_stick_x
+        val lateral = gamepad1.left_stick_y
+        val yaw = -gamepad1.right_stick_x
 
         drivetrain.mecanumDrive(forward.toDouble(), lateral.toDouble(), yaw.toDouble())
 
-        if (gamepad1.a) {
+        if (gamepad1.right_bumper) {
             carousel.spin()
-        } else if (gamepad1.b) {
+        } else if (gamepad1.left_bumper) {
             carousel.reverse()
         } else {
             carousel.stop()
         }
 
+        if (gamepad1.dpad_up) {
+            slide.move(0.3)
+        } else if (gamepad1.dpad_down) {
+            slide.move(-0.3)
+        } else {
+            slide.move(0.0)
+        }
+
+        if (gamepad1.y)
+            scoop.pickup()
+        else if (gamepad1.x)
+            scoop.reset()
+        else if (gamepad1.a)
+            scoop.dump()
 
         telemetry.update()
     }
