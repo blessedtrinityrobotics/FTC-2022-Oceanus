@@ -16,11 +16,13 @@ class DuckDumpAuto : LinearOpMode() {
     override fun runOpMode() {
         pipeline = DuckDetectionPipelineJava(telemetry)
         slide = Slide(hardwareMap, telemetry)
-        drivetrain = Drivetrain(hardwareMap, telemetry, Motor.RunMode.RawPower)
+        drivetrain = Drivetrain(hardwareMap, telemetry)
         scoop = Scoop(hardwareMap, telemetry)
         webcam = getWebcam(hardwareMap, telemetry)
 
         webcam.setPipeline(pipeline)
+
+        drivetrain.setRunMode(Motor.RunMode.PositionControl)
 
         waitForStart()
 

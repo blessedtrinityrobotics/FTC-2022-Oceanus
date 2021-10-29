@@ -24,7 +24,9 @@ class MainTeleOp : OpMode() {
 
     override fun init() {
         carousel = CarouselServo(hardwareMap, telemetry)
-        drivetrain = Drivetrain(hardwareMap, telemetry, Motor.RunMode.RawPower)
+        drivetrain = Drivetrain(hardwareMap, telemetry)
+
+        drivetrain.setRunMode(Motor.RunMode.RawPower)
     }
 
     override fun loop() {
