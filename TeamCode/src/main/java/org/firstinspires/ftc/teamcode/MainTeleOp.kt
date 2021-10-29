@@ -29,6 +29,8 @@ class MainTeleOp : OpMode() {
         drivetrain = Drivetrain(hardwareMap, telemetry, Motor.RunMode.RawPower)
         slide = Slide(hardwareMap, telemetry)
         scoop = Scoop(hardwareMap, telemetry)
+
+        drivetrain.setRunMode(Motor.RunMode.RawPower)
     }
 
     override fun loop() {
