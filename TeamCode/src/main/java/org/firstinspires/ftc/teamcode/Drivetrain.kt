@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode
 
+import com.arcrobotics.ftclib.hardware.RevIMU
 import com.arcrobotics.ftclib.hardware.motors.Motor
 import com.arcrobotics.ftclib.hardware.motors.MotorGroup
 import com.arcrobotics.ftclib.util.MathUtils
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
@@ -12,7 +14,8 @@ import kotlin.math.*
  * Interfaces with the motors directly so you don't have to!
  * Never access the motors, just add functions here to add functionality
  */
-const val WHEEL_DIAMETER = 100
+const val WHEEL_DIAMETER = 3.95 // Inches6
+
 const val TICKS_PER_REVOLUTION = 537.7
 const val DISTANCE_PER_PULSE = WHEEL_DIAMETER * PI / TICKS_PER_REVOLUTION
 
@@ -31,15 +34,21 @@ class Drivetrain (hardwareMap: HardwareMap, val telemetry: Telemetry) {
      */
     init {
 
-        rightMotors.inverted = true
-
-        leftMotors.setDistancePerPulse(DISTANCE_PER_PULSE)
-        rightMotors.setDistancePerPulse(DISTANCE_PER_PULSE)
+        frontRight.inverted = true
+        backRight.inverted = true
     }
 
     fun setRunMode(mode: Motor.RunMode) {
-        leftMotors.setRunMode(mode)
-        rightMotors.setRunMode(mode)
+        frontLeft.setRunMode(mode)
+        frontRight.setRunMode(mode)
+        backLeft.setRunMode(mode)
+        backRight.setRunMode(mode)
+
+
+        backLeft.setDistancePerPulse(DISTANCE_PER_PULSE)
+        backRight.setDistancePerPulse(DISTANCE_PER_PULSE)
+        frontLeft.setDistancePerPulse(DISTANCE_PER_PULSE)
+        frontRight.setDistancePerPulse(DISTANCE_PER_PULSE)
     }
 
     /**
@@ -74,22 +83,38 @@ class Drivetrain (hardwareMap: HardwareMap, val telemetry: Telemetry) {
     }
 
     /**
-     * Uses built in motor encoders to go to a position in mm
-     * @param power Raw power to give the motors as it goes
-     * @param dist distance to travel in mm
+     * Uses built in motor encoders to go to a position in inches
+     * @param power Raw power to give the motors as it goes (HAS TO BE POSITIVE)
+     * @param dist distance to travel in inches
      */
-    fun driveByDistance(power: Double, dist: Double) {
-        leftMotors.setTargetDistance(dist)
-        rightMotors.setTargetDistance(dist)
+    fun driveByDistance(power: Double, dist: Double, op: LinearOpMode) {
+        frontLeft.resetEncoder()
+        backLeft.resetEncoder()
+        frontRight.resetEncoder()
+        backLeft.resetEncoder()
 
-        while (!leftMotors.atTargetPosition() && !rightMotors.atTargetPosition()) {
-            leftMotors.set(power)
-            rightMotors.set(power)
+        frontLeft.setTargetDistance(dist)
+        backLeft.setTargetDistance(dist)
+        frontRight.setTargetDistance(dist)
+        backRight.setTargetDistance(dist)
+
+        while (op.opModeIsActive() && !frontLeft.atTargetPosition() && !backLeft.atTargetPosition()
+            && !frontRight.atTargetPosition() && !backRight.atTargetPosition()) {
+            frontLeft.set(power)
+            backLeft.set(power)
+            frontRight.set(power)
+            backRight.set(power)
+            telemetry.addData("Left Position", backLeft.currentPosition)
+            telemetry.addData("Right Position", backRight.currentPosition)
+            telemetry.update()
         }
 
         leftMotors.stopMotor()
         rightMotors.stopMotor()
     }
 
+    fun turnByDegrees(power: Double, degrees: Double) {
+
+    }
 
 }

@@ -11,6 +11,10 @@ class CarouselServo(hardwareMap: HardwareMap, val telemetry: Telemetry) {
         telemetry.addLine("Carousel Spinning...")
     }
 
+    fun spinPower(power: Double) {
+        servo.power = CAROUSEL_SERVO_SPEED * power
+    }
+
     fun stop() {
         servo.power = 0.0
     }

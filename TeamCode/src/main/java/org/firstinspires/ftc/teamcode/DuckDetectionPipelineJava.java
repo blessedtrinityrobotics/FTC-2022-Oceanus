@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.teamcode.ConfigConstants.*;
 import static org.firstinspires.ftc.teamcode.ConstantsKt.*;
 
 import java.util.ArrayList;
@@ -18,8 +19,8 @@ import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvPipeline;
 
 public class DuckDetectionPipelineJava extends OpenCvPipeline {
-    private Scalar lower_bound = new Scalar(10, 200, 150);
-    private Scalar upper_bound = new Scalar(20, 255, 255);
+    private Scalar lower_bound = new Scalar(lowHue, lowSat, lowVal);
+    private Scalar upper_bound = new Scalar(hue, sat, val);
     private Mat empty = new Mat();
     private Mat mask = new Mat();
     private Mat result = new Mat();
@@ -44,7 +45,7 @@ public class DuckDetectionPipelineJava extends OpenCvPipeline {
         contours.clear();
 
         Imgproc.cvtColor(inputMat, inputMat, Imgproc.COLOR_RGB2HSV);
-        Core.inRange(inputMat, lower_bound, upper_bound, mask);
+        Core.inRange(inputMat, new Scalar(lowHue, lowSat, lowVal), new Scalar(hue, sat, val), mask);
 
         kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(3, 3));
         Imgproc.morphologyEx(mask, opening, Imgproc.MORPH_OPEN, kernel);

@@ -26,7 +26,7 @@ class MainTeleOp : OpMode() {
 
     override fun init() {
         carousel = CarouselServo(hardwareMap, telemetry)
-        drivetrain = Drivetrain(hardwareMap, telemetry, Motor.RunMode.RawPower)
+        drivetrain = Drivetrain(hardwareMap, telemetry)
         slide = Slide(hardwareMap, telemetry)
         scoop = Scoop(hardwareMap, telemetry)
 
@@ -34,33 +34,23 @@ class MainTeleOp : OpMode() {
     }
 
     override fun loop() {
-        val forward = gamepad1.left_stick_x
+        val forward = -gamepad1.left_stick_x
         val lateral = gamepad1.left_stick_y
         val yaw = -gamepad1.right_stick_x
 
         drivetrain.mecanumDrive(forward.toDouble(), lateral.toDouble(), yaw.toDouble())
 
-        if (gamepad1.right_bumper) {
-            carousel.spin()
-        } else if (gamepad1.left_bumper) {
-            carousel.reverse()
-        } else {
-            carousel.stop()
-        }
+        val carouselPower = gamepad2.right_stick_x
+        carousel.spinPower(carouselPower.toDouble())
 
-        if (gamepad1.dpad_up) {
-            slide.move(0.3)
-        } else if (gamepad1.dpad_down) {
-            slide.move(-0.3)
-        } else {
-            slide.move(0.0)
-        }
+        val power = -gamepad2.left_stick_y * 0.75
+        slide.move(power.toDouble())
 
-        if (gamepad1.y)
+        if (gamepad2.a)
             scoop.pickup()
-        else if (gamepad1.x)
+        else if (gamepad2.x)
             scoop.reset()
-        else if (gamepad1.a)
+        else if (gamepad2.y)
             scoop.dump()
 
         telemetry.update()

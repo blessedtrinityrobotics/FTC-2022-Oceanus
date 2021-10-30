@@ -3,8 +3,10 @@ package org.firstinspires.ftc.teamcode
 import com.arcrobotics.ftclib.hardware.motors.Motor
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
-@Autonomous(name = "Carousel Park Auto")
-class CarouselParkAuto : LinearOpMode() {
+import org.firstinspires.ftc.teamcode.ConfigConstants.turnTime
+
+@Autonomous(name = "Warehouse Park Red")
+class WarehouseParkRed : LinearOpMode() {
     lateinit var drivetrain: Drivetrain
     lateinit var carousel: CarouselServo
 
@@ -17,10 +19,11 @@ class CarouselParkAuto : LinearOpMode() {
         waitForStart()
 
         sleep(500)
-        drivetrain.driveByDistance(0.1, 42.0, this)
+        drivetrain.driveByDistance(0.5, 42.0, this)
+        sleep(100)
+        drivetrain.mecanumDrive(0.0, 0.0, 2.0)
+        sleep(turnTime.toLong())
+        drivetrain.stop()
 
-        carousel.spin()
-        sleep(5000)
-        carousel.stop()
     }
 }
