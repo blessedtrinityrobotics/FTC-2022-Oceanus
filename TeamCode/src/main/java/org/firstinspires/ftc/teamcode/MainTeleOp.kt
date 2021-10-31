@@ -37,8 +37,9 @@ class MainTeleOp : OpMode() {
         val forward = -gamepad1.left_stick_x
         val lateral = gamepad1.left_stick_y
         val yaw = -gamepad1.right_stick_x
+        val mult = gamepad1.right_trigger + 1
 
-        drivetrain.mecanumDrive(forward.toDouble(), lateral.toDouble(), yaw.toDouble())
+        drivetrain.mecanumDrive(forward.toDouble(), lateral.toDouble(), yaw.toDouble(), mult.toDouble())
 
         val carouselPower = gamepad2.right_stick_x
         carousel.spinPower(carouselPower.toDouble())

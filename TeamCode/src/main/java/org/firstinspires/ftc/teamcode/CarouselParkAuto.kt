@@ -17,7 +17,7 @@ class CarouselParkAuto : LinearOpMode() {
         waitForStart()
 
         sleep(500)
-        drivetrain.driveByDistance(0.1, 42.0, this)
+        drivetrain.forwardByDistance(0.1, 42.0, this)
 
         carousel.spin()
         sleep(5000)

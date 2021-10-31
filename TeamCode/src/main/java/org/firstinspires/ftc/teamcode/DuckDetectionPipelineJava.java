@@ -91,4 +91,6 @@ public class DuckDetectionPipelineJava extends OpenCvPipeline {
         telemetry.addData("Level", level);
     }
 
+
+
 }

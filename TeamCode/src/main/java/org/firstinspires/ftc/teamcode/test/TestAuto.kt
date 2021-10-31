@@ -24,7 +24,7 @@ class TestAuto : LinearOpMode() {
         waitForStart()
         drivetrain.setRunMode(Motor.RunMode.PositionControl)
 
-        drivetrain.driveByDistance(0.25, 12.0, this)
+        drivetrain.forwardByDistance(0.25, 12.0, this)
 
         while (opModeIsActive()) {
             telemetry.update()

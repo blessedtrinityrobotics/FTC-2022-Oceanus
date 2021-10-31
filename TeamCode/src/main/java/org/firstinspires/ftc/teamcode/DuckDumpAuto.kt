@@ -31,7 +31,12 @@ class DuckDumpAuto : LinearOpMode() {
         telemetry.addData("Level", level)
         telemetry.update()
 
+
+
         //drivetrain.driveByDistance(0.25, -30.0, this)
-        drivetrain.driveByDistance(0.1, 12.0, this)
+        drivetrain.forwardByDistance(0.1, 12.0, this)
+
+
+        webcam.stopStreaming()
     }
 }

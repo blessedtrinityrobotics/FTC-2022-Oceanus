@@ -57,8 +57,9 @@ class Drivetrain (hardwareMap: HardwareMap, val telemetry: Telemetry) {
      * x and y should be from the left joystick, while yaw is from the right
      * x and y are the linear motion, yaw is rotation
      */
-    fun mecanumDrive(x: Double, y: Double, yaw: Double) {
-        val r = hypot(x, y) * ConfigConstants.motorMult
+    fun mecanumDrive(x: Double, y: Double, yaw: Double, mult: Double) {
+        telemetry.addData("Overdrive", mult)
+        val r = hypot(x, y) * ConfigConstants.motorMult * mult
         val robotAngle = atan2(y, x) - Math.PI / 4
         // Really cool trig to get this working
         val v1 = MathUtils.clamp(r * cos(robotAngle) + yaw, -1.0, 1.0)
@@ -87,7 +88,7 @@ class Drivetrain (hardwareMap: HardwareMap, val telemetry: Telemetry) {
      * @param power Raw power to give the motors as it goes (HAS TO BE POSITIVE)
      * @param dist distance to travel in inches
      */
-    fun driveByDistance(power: Double, dist: Double, op: LinearOpMode) {
+    fun forwardByDistance(power: Double, dist: Double, op: LinearOpMode) {
         frontLeft.resetEncoder()
         backLeft.resetEncoder()
         frontRight.resetEncoder()
@@ -96,6 +97,32 @@ class Drivetrain (hardwareMap: HardwareMap, val telemetry: Telemetry) {
         frontLeft.setTargetDistance(dist)
         backLeft.setTargetDistance(dist)
         frontRight.setTargetDistance(dist)
+        backRight.setTargetDistance(dist)
+
+        while (op.opModeIsActive() && !frontLeft.atTargetPosition() && !backLeft.atTargetPosition()
+            && !frontRight.atTargetPosition() && !backRight.atTargetPosition()) {
+            frontLeft.set(power)
+            backLeft.set(power)
+            frontRight.set(power)
+            backRight.set(power)
+            telemetry.addData("Left Position", backLeft.currentPosition)
+            telemetry.addData("Right Position", backRight.currentPosition)
+            telemetry.update()
+        }
+
+        leftMotors.stopMotor()
+        rightMotors.stopMotor()
+    }
+
+    fun strafeByDistance(power: Double, dist: Double, op: LinearOpMode) {
+        frontLeft.resetEncoder()
+        backLeft.resetEncoder()
+        frontRight.resetEncoder()
+        backLeft.resetEncoder()
+
+        frontLeft.setTargetDistance(dist)
+        backLeft.setTargetDistance(-dist)
+        frontRight.setTargetDistance(-dist)
         backRight.setTargetDistance(dist)
 
         while (op.opModeIsActive() && !frontLeft.atTargetPosition() && !backLeft.atTargetPosition()
