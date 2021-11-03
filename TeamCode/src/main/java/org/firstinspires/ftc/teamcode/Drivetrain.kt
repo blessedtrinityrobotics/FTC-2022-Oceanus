@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.hardware.motors.Motor
 import com.arcrobotics.ftclib.hardware.motors.MotorGroup
 import com.arcrobotics.ftclib.util.MathUtils
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
+import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
@@ -20,7 +21,7 @@ const val TICKS_PER_REVOLUTION = 537.7
 const val DISTANCE_PER_PULSE = WHEEL_DIAMETER * PI / TICKS_PER_REVOLUTION
 
 
-class Drivetrain (hardwareMap: HardwareMap, val telemetry: Telemetry) {
+class Drivetrain (hardwareMap: HardwareMap, val telemetry: Telemetry, val opMode: LinearOpMode?, val imu: IMU?) {
     val frontLeft = Motor(hardwareMap, FL_MOTOR_NAME, Motor.GoBILDA.RPM_312)
     val backLeft = Motor(hardwareMap, BL_MOTOR_NAME, Motor.GoBILDA.RPM_312)
     val frontRight = Motor(hardwareMap, FR_MOTOR_NAME, Motor.GoBILDA.RPM_312)
@@ -29,9 +30,6 @@ class Drivetrain (hardwareMap: HardwareMap, val telemetry: Telemetry) {
     val leftMotors = MotorGroup(frontLeft, backLeft)
     val rightMotors = MotorGroup(frontRight, backRight)
 
-    /**
-     * TODO: Migrate to the actual Mecanum drive class of FTC Lib
-     */
     init {
 
         frontRight.inverted = true
@@ -88,7 +86,7 @@ class Drivetrain (hardwareMap: HardwareMap, val telemetry: Telemetry) {
      * @param power Raw power to give the motors as it goes (HAS TO BE POSITIVE)
      * @param dist distance to travel in inches
      */
-    fun forwardByDistance(power: Double, dist: Double, op: LinearOpMode) {
+    fun forwardByDistance(power: Double, dist: Double) {
         frontLeft.resetEncoder()
         backLeft.resetEncoder()
         frontRight.resetEncoder()
@@ -99,7 +97,7 @@ class Drivetrain (hardwareMap: HardwareMap, val telemetry: Telemetry) {
         frontRight.setTargetDistance(dist)
         backRight.setTargetDistance(dist)
 
-        while (op.opModeIsActive() && !frontLeft.atTargetPosition() && !backLeft.atTargetPosition()
+        while (opMode?.opModeIsActive() == true && !frontLeft.atTargetPosition() && !backLeft.atTargetPosition()
             && !frontRight.atTargetPosition() && !backRight.atTargetPosition()) {
             frontLeft.set(power)
             backLeft.set(power)
@@ -114,6 +112,10 @@ class Drivetrain (hardwareMap: HardwareMap, val telemetry: Telemetry) {
         rightMotors.stopMotor()
     }
 
+    /*
+        As of right now this function does not work, nor do I intend it to work
+        I don't trust our drivetrain well enough to strafe straight
+     */
     fun strafeByDistance(power: Double, dist: Double, op: LinearOpMode) {
         frontLeft.resetEncoder()
         backLeft.resetEncoder()
@@ -140,8 +142,31 @@ class Drivetrain (hardwareMap: HardwareMap, val telemetry: Telemetry) {
         rightMotors.stopMotor()
     }
 
-    fun turnByDegrees(power: Double, degrees: Double) {
+    /**
+     * Turns to a heading, specified by degrees
+     */
+    fun turnToHeading(power: Double, degrees: Double) {
+        val initialHeading = imu!!.getHeading()
+        val goal = initialHeading + degrees
+        val dir = if (initialHeading < goal) 1 else -1
 
+        val leftPower = power * dir
+        val rightPower = power * -dir
+
+        // We have to be within 5 degrees of the goal orientation
+        // for it to stop
+        while (opMode?.opModeIsActive() == true && abs(imu!!.getHeading() - goal) > 5) {
+            frontLeft.set(leftPower)
+            backLeft.set(leftPower)
+            frontRight.set(rightPower)
+            backRight.set(rightPower)
+            telemetry.addData("Goal Diff Heading", abs(imu!!.getHeading() - goal))
+        }
+
+        frontLeft.stopMotor()
+        backLeft.stopMotor()
+        frontRight.stopMotor()
+        backRight.stopMotor()
     }
 
 }

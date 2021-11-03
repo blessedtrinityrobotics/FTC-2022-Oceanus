@@ -12,13 +12,24 @@ class DuckDumpAuto : LinearOpMode() {
     lateinit var pipeline: DuckDetectionPipelineJava
     lateinit var drivetrain: Drivetrain
     lateinit var scoop: Scoop
+    lateinit var imu: IMU
 
     override fun runOpMode() {
         pipeline = DuckDetectionPipelineJava(telemetry)
         slide = Slide(hardwareMap, telemetry)
-        drivetrain = Drivetrain(hardwareMap, telemetry)
         scoop = Scoop(hardwareMap, telemetry)
         webcam = getWebcam(hardwareMap, telemetry)
+        imu = IMU(hardwareMap, telemetry)
+        drivetrain = Drivetrain(hardwareMap, telemetry, this, imu)
+
+        telemetry.addLine("Calibrating gyro...")
+        telemetry.update()
+        // make sure the gyro is calibrated before continuing
+        while (!isStopRequested && imu.imu.isGyroCalibrated) {
+            sleep(50)
+            idle()
+        }
+        telemetry.update()
 
         webcam.setPipeline(pipeline)
 
@@ -32,10 +43,9 @@ class DuckDumpAuto : LinearOpMode() {
         telemetry.update()
 
 
+        drivetrain.forwardByDistance(0.1, 12.0)
 
-        //drivetrain.driveByDistance(0.25, -30.0, this)
-        drivetrain.forwardByDistance(0.1, 12.0, this)
-
+        drivetrain.turnToHeading(0.25, 90.0)
 
         webcam.stopStreaming()
     }
