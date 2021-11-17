@@ -21,7 +21,7 @@ class MainTeleOp : OpMode() {
 
     override fun init() {
         carousel = CarouselServo(hardwareMap, telemetry)
-        drivetrain = Drivetrain(hardwareMap, telemetry)
+        drivetrain = Drivetrain(hardwareMap, telemetry, null, null) // We don't have a linear op Mode to give to the drivetrain
         slide = Slide(hardwareMap, telemetry)
         scoop = Scoop(hardwareMap, telemetry)
 
