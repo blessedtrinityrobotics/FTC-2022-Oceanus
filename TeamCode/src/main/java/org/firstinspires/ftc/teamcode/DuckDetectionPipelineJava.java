@@ -33,7 +33,7 @@ public class DuckDetectionPipelineJava extends OpenCvPipeline {
     private int increment = CAM_RES_X/3;
 
     // Default zone is center, be warned, this could be a problem
-    int level = 0;
+    public int level = 0;
 
     public DuckDetectionPipelineJava(Telemetry telemetry) {
         this.telemetry = telemetry;

@@ -1,16 +1,16 @@
-package org.firstinspires.ftc.teamcode
+package org.firstinspires.ftc.teamcode.hardware
 
 import com.arcrobotics.ftclib.hardware.motors.Motor
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
-import kotlin.math.PI
+import org.firstinspires.ftc.teamcode.SLIDE_MOTOR_NAME
 import kotlin.math.sign
 
 class Slide(hardwareMap: HardwareMap, val telemetry: Telemetry) {
     val motor = Motor(hardwareMap, SLIDE_MOTOR_NAME, Motor.GoBILDA.RPM_223)
 
-    val MAX_TICKS: Double = 2350.0
-    val MIN_TICKS: Double = -50.0
+    val MAX_TICKS: Double = 3100.0
+    val MIN_TICKS: Double = -10.0
 
     init {
         motor.setRunMode(Motor.RunMode.RawPower)

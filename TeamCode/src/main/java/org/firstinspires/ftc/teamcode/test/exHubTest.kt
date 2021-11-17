@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.test
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.CRServo
 import com.qualcomm.robotcore.hardware.DcMotor
 
+
 @TeleOp(name="2nd Hub Test") // Compatible with Java annotations
+@Disabled
 class exHubTest : OpMode() {
     // the lateinit modifier allows you to wait to initialize a variable in a neat fashion
     private lateinit var test: DcMotor

@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.test
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
-import org.firstinspires.ftc.teamcode.Scoop
-import org.firstinspires.ftc.teamcode.Slide
+import org.firstinspires.ftc.teamcode.hardware.Scoop
+import org.firstinspires.ftc.teamcode.hardware.Slide
 
 @TeleOp(name="Test TeleOp", group="Test")
+@Disabled
 class TestTeleop : OpMode() {
     lateinit var slide: Slide
     lateinit var scoop: Scoop

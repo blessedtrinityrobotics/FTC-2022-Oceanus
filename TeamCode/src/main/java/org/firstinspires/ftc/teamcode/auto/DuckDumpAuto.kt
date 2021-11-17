@@ -1,8 +1,12 @@
-package org.firstinspires.ftc.teamcode
+package org.firstinspires.ftc.teamcode.auto
 
 import com.arcrobotics.ftclib.hardware.motors.Motor
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
+import org.firstinspires.ftc.teamcode.*
+import org.firstinspires.ftc.teamcode.hardware.Drivetrain
+import org.firstinspires.ftc.teamcode.hardware.Scoop
+import org.firstinspires.ftc.teamcode.hardware.Slide
 import org.openftc.easyopencv.OpenCvWebcam
 
 @Autonomous(name="Duck Detection & Dump Auto", group="Auto")

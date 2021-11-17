@@ -1,17 +1,12 @@
-package org.firstinspires.ftc.teamcode
+package org.firstinspires.ftc.teamcode.teleOp
 
 import com.arcrobotics.ftclib.hardware.motors.Motor
-import com.arcrobotics.ftclib.util.MathUtils.clamp
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
-import com.qualcomm.robotcore.hardware.CRServo
-import com.qualcomm.robotcore.hardware.DcMotor
-import com.qualcomm.robotcore.hardware.DcMotorSimple
-import com.qualcomm.robotcore.hardware.Servo
-import kotlin.math.atan2
-import kotlin.math.cos
-import kotlin.math.hypot
-import kotlin.math.sin
+import org.firstinspires.ftc.teamcode.hardware.Scoop
+import org.firstinspires.ftc.teamcode.hardware.Slide
+import org.firstinspires.ftc.teamcode.hardware.CarouselServo
+import org.firstinspires.ftc.teamcode.hardware.Drivetrain
 
 @TeleOp(name="Main TeleOp")
 class MainTeleOp : OpMode() {
@@ -37,6 +32,9 @@ class MainTeleOp : OpMode() {
         val forward = -gamepad1.left_stick_x
         val lateral = gamepad1.left_stick_y
         val yaw = -gamepad1.right_stick_x
+
+
+
         val mult = gamepad1.right_trigger + 1
 
         drivetrain.mecanumDrive(forward.toDouble(), lateral.toDouble(), yaw.toDouble(), mult.toDouble())
@@ -47,13 +45,16 @@ class MainTeleOp : OpMode() {
         val power = -gamepad2.left_stick_y * 0.75
         slide.move(power.toDouble())
 
-        if (gamepad2.a)
+        if (gamepad2.y)
             scoop.pickup()
         else if (gamepad2.x)
             scoop.reset()
-        else if (gamepad2.y)
+        else if (gamepad2.a)
             scoop.dump()
 
+        telemetry.addData("max = ", slide.MAX_TICKS)
+        telemetry.addData("slide = ", slide.motor.currentPosition)
+        telemetry.addData("Servo angle = ", scoop.servo.position)
         telemetry.update()
     }
 

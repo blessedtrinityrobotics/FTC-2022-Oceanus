@@ -1,8 +1,11 @@
-package org.firstinspires.ftc.teamcode
+package org.firstinspires.ftc.teamcode.auto
 
 import com.arcrobotics.ftclib.hardware.motors.Motor
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
+import org.firstinspires.ftc.teamcode.hardware.CarouselServo
+import org.firstinspires.ftc.teamcode.Drivetrain
+
 @Autonomous(name = "Carousel Park Auto")
 class CarouselParkAuto : LinearOpMode() {
     lateinit var drivetrain: Drivetrain

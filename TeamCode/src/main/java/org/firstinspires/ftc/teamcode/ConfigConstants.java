@@ -8,11 +8,11 @@ import org.opencv.core.Scalar;
  * Used by FTC dashboard to change values on the fly
  */
 @Config
-class ConfigConstants {
-    public static double motorMult = 0.5;
-    public static double dumpAngle = 0.7;
-    public static double neutralAngle = 0.9;
-    public static double pickupAngle = 0.95;
+public class ConfigConstants {
+    public static double motorMult = -0.75;
+    public static double dumpAngle = 0.55;
+    public static double neutralAngle = 0.625;
+    public static double pickupAngle = 0.9;
     public static double hue = 30;
     public static double sat = 255;
     public static double val = 230;
@@ -20,4 +20,5 @@ class ConfigConstants {
     public static double lowSat = 75;
     public static double lowVal = 150;
     public static double turnTime = 2500;
+    public static double carouselSpin = 1000;
 }

@@ -1,7 +1,9 @@
-package org.firstinspires.ftc.teamcode
+package org.firstinspires.ftc.teamcode.hardware
 
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
+import org.firstinspires.ftc.teamcode.ConfigConstants
+import org.firstinspires.ftc.teamcode.SCOOP_SERVO_NAME
 
 /**
  * The scooping servo connected to the plow/bucket thing at the front of the robot
@@ -9,6 +11,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry
 
 class Scoop(hardwareMap: HardwareMap, val telemetry: Telemetry) {
     val servo = hardwareMap.servo.get(SCOOP_SERVO_NAME)
+
+
 
     fun reset() {
         servo.position = ConfigConstants.neutralAngle
@@ -21,5 +25,6 @@ class Scoop(hardwareMap: HardwareMap, val telemetry: Telemetry) {
     fun pickup() {
         servo.position = ConfigConstants.pickupAngle
     }
+
 
 }

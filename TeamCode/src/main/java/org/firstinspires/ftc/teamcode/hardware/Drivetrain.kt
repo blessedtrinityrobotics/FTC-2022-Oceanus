@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode
+package org.firstinspires.ftc.teamcode.hardware
 
 import com.arcrobotics.ftclib.hardware.RevIMU
 import com.arcrobotics.ftclib.hardware.motors.Motor
@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
+import org.firstinspires.ftc.teamcode.*
 import kotlin.math.*
 
 /**
@@ -66,6 +67,7 @@ class Drivetrain (hardwareMap: HardwareMap, val telemetry: Telemetry) {
         val v2 = MathUtils.clamp(r * sin(robotAngle) - yaw, -1.0, 1.0)
         val v3 = MathUtils.clamp(r * sin(robotAngle) + yaw, -1.0, 1.0)
         val v4 = MathUtils.clamp(r * cos(robotAngle) - yaw, -1.0, 1.0)
+
 
         frontLeft.set(v1)
         frontRight.set(v2)
