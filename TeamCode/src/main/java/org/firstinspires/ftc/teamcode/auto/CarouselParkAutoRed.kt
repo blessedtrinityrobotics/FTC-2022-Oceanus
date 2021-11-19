@@ -4,7 +4,7 @@ import com.arcrobotics.ftclib.hardware.motors.Motor
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import org.firstinspires.ftc.teamcode.hardware.CarouselServo
-import org.firstinspires.ftc.teamcode.Drivetrain
+import org.firstinspires.ftc.teamcode.hardware.*
 
 @Autonomous(name = "Carousel Park Auto")
 class CarouselParkAutoRed : LinearOpMode() {
@@ -12,7 +12,7 @@ class CarouselParkAutoRed : LinearOpMode() {
     lateinit var carousel: CarouselServo
 
     override fun runOpMode() {
-        drivetrain = Drivetrain(hardwareMap, telemetry)
+        drivetrain = Drivetrain(hardwareMap, telemetry, null, null)
         carousel = CarouselServo(hardwareMap, telemetry)
 
         drivetrain.setRunMode(Motor.RunMode.PositionControl)
@@ -20,7 +20,7 @@ class CarouselParkAutoRed : LinearOpMode() {
         waitForStart()
 
         sleep(500)
-        drivetrain.forwardByDistance(0.1, 54.0, this)
+        drivetrain.forwardByDistance(0.1, 54.0)
 
         carousel.spin()
         sleep(5000)

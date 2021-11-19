@@ -3,10 +3,7 @@ package org.firstinspires.ftc.teamcode.teleOp
 import com.arcrobotics.ftclib.hardware.motors.Motor
 import com.qualcomm.robotcore.eventloop.opmode.OpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
-import org.firstinspires.ftc.teamcode.hardware.Scoop
-import org.firstinspires.ftc.teamcode.hardware.Slide
-import org.firstinspires.ftc.teamcode.hardware.CarouselServo
-import org.firstinspires.ftc.teamcode.hardware.Drivetrain
+import org.firstinspires.ftc.teamcode.hardware.*
 
 @TeleOp(name="Main TeleOp")
 class MainTeleOp : OpMode() {
@@ -15,12 +12,12 @@ class MainTeleOp : OpMode() {
     // I've made specific classes to control the functionality of the hardware on the robot
     // So I can reuse the code between Auto's and Teleops
     private lateinit var drivetrain: Drivetrain
-    private lateinit var carousel: CarouselServo
+    private lateinit var carousel: CarouselMotor
     private  lateinit var slide: Slide
     private lateinit var scoop: Scoop
 
     override fun init() {
-        carousel = CarouselServo(hardwareMap, telemetry)
+        carousel = CarouselMotor(hardwareMap, telemetry)
         drivetrain = Drivetrain(hardwareMap, telemetry, null, null) // We don't have a linear op Mode to give to the drivetrain
         slide = Slide(hardwareMap, telemetry)
         scoop = Scoop(hardwareMap, telemetry)
@@ -39,9 +36,6 @@ class MainTeleOp : OpMode() {
 
         drivetrain.mecanumDrive(forward.toDouble(), lateral.toDouble(), yaw.toDouble(), mult.toDouble())
 
-        val carouselPower = gamepad2.right_stick_x
-        carousel.spinPower(carouselPower.toDouble())
-
         val power = -gamepad2.left_stick_y * 0.75
         slide.move(power.toDouble())
 
@@ -52,9 +46,16 @@ class MainTeleOp : OpMode() {
         else if (gamepad2.a)
             scoop.dump()
 
+        if (gamepad2.b)
+            carousel.move2()
+
+
+
+
         telemetry.addData("max = ", slide.MAX_TICKS)
         telemetry.addData("slide = ", slide.motor.currentPosition)
         telemetry.addData("Servo angle = ", scoop.servo.position)
+        telemetry.addData("Duck encoder = ", carousel.motor.currentPosition)
         telemetry.update()
     }
 

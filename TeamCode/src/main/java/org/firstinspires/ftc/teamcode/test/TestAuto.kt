@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.test
 import com.arcrobotics.ftclib.hardware.motors.Motor
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
-import org.firstinspires.ftc.teamcode.Drivetrain
+import org.firstinspires.ftc.teamcode.hardware.*
 import org.firstinspires.ftc.teamcode.DuckDetectionPipelineJava
 import org.firstinspires.ftc.teamcode.getWebcam
 import org.openftc.easyopencv.OpenCvWebcam
@@ -17,14 +17,14 @@ class TestAuto : LinearOpMode() {
     override fun runOpMode() {
         pipeline = DuckDetectionPipelineJava(telemetry)
         webcam = getWebcam(hardwareMap, telemetry)
-        drivetrain = Drivetrain(hardwareMap, telemetry)
+        drivetrain = Drivetrain(hardwareMap, telemetry, null, null)
 
         webcam.setPipeline(pipeline)
 
         waitForStart()
         drivetrain.setRunMode(Motor.RunMode.PositionControl)
 
-        drivetrain.forwardByDistance(0.25, 12.0, this)
+        drivetrain.forwardByDistance(0.25, 12.0)
 
         while (opModeIsActive()) {
             telemetry.update()
