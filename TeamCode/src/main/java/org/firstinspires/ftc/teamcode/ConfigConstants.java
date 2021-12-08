@@ -20,6 +20,4 @@ public class ConfigConstants {
     public static double lowSat = 75;
     public static double lowVal = 150;
     public static double turnTime = 2500;
-    public static double rotateTics = -100;
-    public static double carousel_power = -0.1;
 }

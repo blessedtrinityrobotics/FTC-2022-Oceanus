@@ -14,11 +14,8 @@ class CarouselMotor(hardwareMap: HardwareMap, val telemetry: Telemetry) {
 
     val motor = Motor(hardwareMap, CAROUSEL_MOTOR_NAME, Motor.GoBILDA.RPM_1620)
 
-    val TICKS_REVOLUTION = 103.8
-    val WHEEL_DIAMETER = 2.625 // Inches6
-    val MOTOR_SPIN = WHEEL_DIAMETER * PI * TICKS_PER_REVOLUTION
-    val CAROUSEL_DIAMETER = 15
-    val  CAROUSELSPIN = CAROUSEL_DIAMETER * PI * TICKS_REVOLUTION
+    val rotationCycle = 700
+
 
 
     init {
@@ -30,45 +27,35 @@ class CarouselMotor(hardwareMap: HardwareMap, val telemetry: Telemetry) {
         motor.resetEncoder()
     }
 
-    //
-    fun move() {
-        var speed = 0.1
-        var relativePosition = 0.0;
-        var count = 0.0
+    // used for moving duck from Carousel
 
-        while ( motor.currentPosition <= 4712) {
-            motor.set(speed)
-            relativePosition = (motor.currentPosition -  100 * count)
-            if (relativePosition >= 100) {
-                speed = speed + 0.1
-                count++
+    //used for when you are on the red alliance
+    fun moveRed(){
+        while (motor.currentPosition > -rotationCycle){
+            if (motor.currentPosition > -rotationCycle/2) {
+                motor.set(-0.25)
+                telemetry.addData("together we made it", true)
             }
-        }
-        motor.stopMotor()
-        motor.resetEncoder()
-    }
-
-    fun move2() {
-        while (motor.currentPosition > -700){
-            if (motor.currentPosition/175  <= -1) {
+            else {
                 motor.set(-0.21)
             }
-            else if (motor.currentPosition/175 >= -2){
-                motor.set(-0.25)
-            }
         }
         motor.stopMotor()
         motor.resetEncoder()
     }
 
-    fun test()
-    {
-
-        motor.set(carousel_power)
-
-
+    fun moveBlue(){
+        while (motor.currentPosition < rotationCycle){
+            if (motor.currentPosition < rotationCycle/2) {
+                motor.set(0.25)
+                telemetry.addData("together we made it", true)
+            }
+            else {
+                motor.set(0.21)
+            }
+        }
+        motor.stopMotor()
+        motor.resetEncoder()
     }
-
-
 
 }

@@ -46,8 +46,10 @@ class MainTeleOp : OpMode() {
         else if (gamepad2.a)
             scoop.dump()
 
-        if (gamepad2.b)
-            carousel.move2()
+        if (gamepad2.dpad_right)
+            carousel.moveRed()
+        else if (gamepad2.dpad_left)
+            carousel.moveBlue()
 
 
 
