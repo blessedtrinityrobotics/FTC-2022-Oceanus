@@ -1,22 +1,17 @@
 package org.firstinspires.ftc.teamcode.hardware
 
-import android.os.SystemClock.sleep
+
 import com.arcrobotics.ftclib.hardware.motors.Motor
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
-import org.firstinspires.ftc.teamcode.*;
-import org.firstinspires.ftc.teamcode.ConfigConstants.*;
-import kotlin.concurrent.thread
-import kotlin.math.*
+import org.firstinspires.ftc.teamcode.*
 
 
 class CarouselMotor(hardwareMap: HardwareMap, val telemetry: Telemetry) {
 
     val motor = Motor(hardwareMap, CAROUSEL_MOTOR_NAME, Motor.GoBILDA.RPM_1620)
 
-    val rotationCycle = 700
-
-
+    private val rotationCycle = 700 // used to hold the distance need to get the duck off of the Carousel
 
     init {
         motor.setRunMode(Motor.RunMode.RawPower)
@@ -44,6 +39,7 @@ class CarouselMotor(hardwareMap: HardwareMap, val telemetry: Telemetry) {
         motor.resetEncoder()
     }
 
+    // used for when you are on the blue alliance
     fun moveBlue(){
         while (motor.currentPosition < rotationCycle){
             if (motor.currentPosition < rotationCycle/2) {

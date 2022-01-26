@@ -1,9 +1,12 @@
-package org.firstinspires.ftc.teamcode
+package org.firstinspires.ftc.teamcode.hardware
 
 import com.acmerobotics.dashboard.FtcDashboard
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.Telemetry
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName
+import org.firstinspires.ftc.teamcode.CAM_NAME
+import org.firstinspires.ftc.teamcode.CAM_RES_X
+import org.firstinspires.ftc.teamcode.CAM_RES_Y
 import org.openftc.easyopencv.*
 
 /**

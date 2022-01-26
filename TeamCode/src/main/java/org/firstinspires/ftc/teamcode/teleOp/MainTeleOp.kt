@@ -13,7 +13,7 @@ class MainTeleOp : OpMode() {
     // So I can reuse the code between Auto's and Teleops
     private lateinit var drivetrain: Drivetrain
     private lateinit var carousel: CarouselMotor
-    private  lateinit var slide: Slide
+    private lateinit var slide: Slide
     private lateinit var scoop: Scoop
 
     override fun init() {
@@ -26,7 +26,7 @@ class MainTeleOp : OpMode() {
     }
 
     override fun loop() {
-        val forward = -gamepad1.left_stick_x
+        val forward = gamepad1.left_stick_x
         val lateral = gamepad1.left_stick_y
         val yaw = -gamepad1.right_stick_x
 

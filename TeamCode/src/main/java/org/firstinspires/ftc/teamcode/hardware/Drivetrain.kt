@@ -37,11 +37,13 @@ class Drivetrain (hardwareMap: HardwareMap, val telemetry: Telemetry, val opMode
         backRight.inverted = true
     }
 
+
     fun setRunMode(mode: Motor.RunMode) {
         frontLeft.setRunMode(mode)
         frontRight.setRunMode(mode)
         backLeft.setRunMode(mode)
         backRight.setRunMode(mode)
+
 
 
         backLeft.setDistancePerPulse(DISTANCE_PER_PULSE)
@@ -86,21 +88,20 @@ class Drivetrain (hardwareMap: HardwareMap, val telemetry: Telemetry, val opMode
     /**
      * Uses built in motor encoders to go to a position in inches
      * @param power Raw power to give the motors as it goes (HAS TO BE POSITIVE)
-     * @param dist distance to travel in inches
+     * @param dist distance- to travel in inches
      */
     fun forwardByDistance(power: Double, dist: Double) {
         frontLeft.resetEncoder()
         backLeft.resetEncoder()
         frontRight.resetEncoder()
-        backLeft.resetEncoder()
+        backRight.resetEncoder()
 
         frontLeft.setTargetDistance(dist)
         backLeft.setTargetDistance(dist)
         frontRight.setTargetDistance(dist)
         backRight.setTargetDistance(dist)
 
-        while (opMode?.opModeIsActive() == true && !frontLeft.atTargetPosition() && !backLeft.atTargetPosition()
-            && !frontRight.atTargetPosition() && !backRight.atTargetPosition()) {
+        while (opMode?.opModeIsActive() == true && !frontLeft.atTargetPosition() && !backLeft.atTargetPosition() && !frontRight.atTargetPosition() && !backRight.atTargetPosition()) {
             frontLeft.set(power)
             backLeft.set(power)
             frontRight.set(power)
@@ -122,7 +123,7 @@ class Drivetrain (hardwareMap: HardwareMap, val telemetry: Telemetry, val opMode
         frontLeft.resetEncoder()
         backLeft.resetEncoder()
         frontRight.resetEncoder()
-        backLeft.resetEncoder()
+        backRight.resetEncoder()
 
         frontLeft.setTargetDistance(dist)
         backLeft.setTargetDistance(-dist)
@@ -132,9 +133,9 @@ class Drivetrain (hardwareMap: HardwareMap, val telemetry: Telemetry, val opMode
         while (op.opModeIsActive() && !frontLeft.atTargetPosition() && !backLeft.atTargetPosition()
             && !frontRight.atTargetPosition() && !backRight.atTargetPosition()) {
             frontLeft.set(power)
-            backLeft.set(power)
+            backLeft.set(-power)
             frontRight.set(power)
-            backRight.set(power)
+            backRight.set(-power)
             telemetry.addData("Left Position", backLeft.currentPosition)
             telemetry.addData("Right Position", backRight.currentPosition)
             telemetry.update()
